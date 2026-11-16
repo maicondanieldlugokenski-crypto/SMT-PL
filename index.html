@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#075b50">
+<meta name="description" content="Calculadora editável de Participação nos Lucros (PL) 2026.">
+<title>Calculadora de PL 2026</title>
+<style>
+:root{--green:#075b50;--dark:#06483f;--bg:#f3f7f5;--text:#173b36;--muted:#657873;--line:#e0eae6;--shadow:0 12px 34px rgba(13,61,52,.09)}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:28px 16px;background:radial-gradient(circle at top,#e5f1ed 0,var(--bg) 430px);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{width:min(100%,780px);margin:auto}header{text-align:center;margin:8px 0 25px}.logo{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:16px;background:var(--green);color:#fff;font-size:24px;font-weight:850;margin-bottom:12px;box-shadow:0 8px 20px #075b5030}
+h1{margin:0;color:var(--dark);font-size:clamp(27px,5vw,36px);letter-spacing:-.8px}.sub{color:var(--muted);margin:8px 0 0;font-size:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:21px;padding:clamp(19px,4vw,30px);box-shadow:var(--shadow);margin-bottom:17px}
+h2{font-size:17px;margin:0 0 17px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.field label{display:block;font-size:13px;font-weight:750;margin-bottom:7px}
+.field input{width:100%;border:1.5px solid #d8e4e0;border-radius:12px;padding:13px 12px;font:inherit;font-size:17px;font-weight:700;color:var(--dark);background:#fbfdfc;outline:none}
+.field input:focus{border-color:var(--green);box-shadow:0 0 0 4px #075b5018}.help{font-size:11px;color:var(--muted);margin:6px 0 0}
+.salary{margin-bottom:19px}.salary input{font-size:22px;padding:15px}
+.result{margin-top:23px;padding:23px 17px;border-radius:17px;text-align:center;color:white;background:linear-gradient(135deg,#075b50,#087568)}
+.result-label{font-size:12px;font-weight:800;letter-spacing:1.2px;opacity:.9}.amount{font-size:clamp(34px,8vw,47px);font-weight:850;letter-spacing:-1.3px;margin:8px 0 2px}.result-note{font-size:11px;opacity:.83}
+.details{margin-top:25px}.line{display:flex;justify-content:space-between;gap:15px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.line span:first-child{color:var(--muted)}.line strong{text-align:right}.line.total{border:0;padding-top:16px;font-size:16px}.line.total span:first-child{color:var(--text);font-weight:800}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}button{border:0;border-radius:11px;padding:12px 16px;font:inherit;font-size:13px;font-weight:750;cursor:pointer;background:var(--green);color:#fff}button.secondary{background:#edf4f1;color:var(--green)}button:hover{filter:brightness(.96)}
+.formula{margin-top:17px;padding:14px;border-radius:12px;background:#f5f9f7;border:1px solid var(--line)}.formula small{display:block;color:var(--muted);font-weight:750;margin-bottom:6px}.formula code{font-size:12px;color:var(--dark);white-space:normal;line-height:1.6}
+.notice{font-size:11px;line-height:1.6;color:var(--muted);margin:16px 3px}footer{text-align:center;font-size:11px;color:#81918c;margin:20px 0}
+@media(max-width:520px){body{padding:20px 12px}.grid{grid-template-columns:1fr;gap:13px}.card{border-radius:17px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header><div class="logo">PL</div><h1>Calculadora de PL 2026</h1><p class="sub">Personalize os parâmetros e simule sua Participação nos Lucros.</p></header>
+
+<section class="card">
+<h2>1. Parâmetros da PL — você pode alterar</h2>
+<div class="grid">
+  <div class="field"><label for="fixed">Parcela fixa (R$)</label><input id="fixed" inputmode="decimal" value="1.002,34"><p class="help">Valor fixo da participação.</p></div>
+  <div class="field"><label for="variableRate">Parcela variável (%)</label><input id="variableRate" inputmode="decimal" value="77,55"><p class="help">Percentual aplicado sobre o salário.</p></div>
+  <div class="field"><label for="costRate">Apuração do centro de custo (%)</label><input id="costRate" inputmode="decimal" value="90,14"><p class="help">Percentual aplicado sobre o subtotal.</p></div>
+</div>
+</section>
+
+<section class="card">
+<h2>2. Informe o salário bruto</h2>
+<div class="field salary"><label for="salary">Salário mensal (R$)</label><input id="salary" inputmode="decimal" value="3.325,00" placeholder="Ex.: 3.325,00"><p class="help">Salário antes dos descontos.</p></div>
+<div class="result" aria-live="polite"><div class="result-label">SUA PL ESTIMADA</div><div class="amount" id="result">R$ 3.227,80</div><div class="result-note">Estimativa calculada com os parâmetros acima</div></div>
+<div class="details">
+<h2>Detalhamento do cálculo</h2>
+<div class="line"><span>Parcela fixa</span><strong id="fixedDetail">R$ 1.002,34</strong></div>
+<div class="line"><span>Parcela variável</span><strong id="variableDetail">R$ 2.577,04</strong></div>
+<div class="line"><span>Subtotal</span><strong id="subtotal">R$ 3.579,38</strong></div>
+<div class="line"><span>Ajuste do centro de custo</span><strong id="adjustment">- R$ 351,58</strong></div>
+<div class="line total"><span>Total estimado</span><strong id="total">R$ 3.227,80</strong></div>
+</div>
+<div class="formula"><small>FÓRMULA UTILIZADA</small><code>(parcela fixa + salário bruto × percentual variável) × percentual do centro de custo</code></div>
+<div class="actions"><button type="button" id="reset">Restaurar valores originais</button><button type="button" class="secondary" id="clear">Limpar salário</button></div>
+</section>
+<p class="notice"><strong>Importante:</strong> simulação baseada nos parâmetros informados. O resultado oficial pode variar conforme regras da empresa, elegibilidade, período trabalhado, estabelecimento, centro de custo e eventuais descontos.</p>
+<footer>Calculadora de PL 2026 · Simulação informativa</footer>
+</main>
+<script>
+const defaults={fixed:'1.002,34',variableRate:'77,55',costRate:'90,14',salary:'3.325,00'};
+const ids=['fixed','variableRate','costRate','salary'];
+const el=id=>document.getElementById(id);
+function parseBR(v){if(!v||!v.trim())return 0;const n=Number(v.trim().replace(/\./g,'').replace(',','.'));return Number.isFinite(n)?n:0}
+const brl=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+function update(){
+ const fixed=parseBR(el('fixed').value);
+ const rate=parseBR(el('variableRate').value)/100;
+ const cost=parseBR(el('costRate').value)/100;
+ const salary=parseBR(el('salary').value);
+ const variable=salary*rate, subtotal=fixed+variable, total=subtotal*cost, adjustment=total-subtotal;
+ el('result').textContent=brl(total);
+ el('fixedDetail').textContent=brl(fixed);
+ el('variableDetail').textContent=brl(variable);
+ el('subtotal').textContent=brl(subtotal);
+ el('adjustment').textContent=(adjustment<0?'- ':'+')+brl(Math.abs(adjustment));
+ el('total').textContent=brl(total);
+}
+ids.forEach(id=>el(id).addEventListener('input',update));
+el('reset').addEventListener('click',()=>{ids.forEach(id=>el(id).value=defaults[id]);update()});
+el('clear').addEventListener('click',()=>{el('salary').value='';update();el('salary').focus()});
+update();
+</script>
+</body>
+</html>
